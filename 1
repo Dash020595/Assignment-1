@@ -1,0 +1,25 @@
+    def classify(self, data):
+        
+        Args:
+            data (np.array):
+        Returns:
+            list(dict(str, float))
+        prediction = self.model.predict(data)
+        all_category_probs = []
+        for i in range(prediction.shape[0]):
+            category_probs = {}
+            for category in self.category_map:
+                category_probs[category] = prediction[i,self.category_map[category]]
+            all_category_probs.append(category_probs)
+        return all_category_probs
+
+    def get_labels(self, categories):
+       
+        Args:
+            categories (list(str))
+        Returns:
+            (list(int))
+        
+        indexed_categories = self.index_categories(categories)
+        labels = to_categorical(np.asarray(indexed_categories))
+        return labels
